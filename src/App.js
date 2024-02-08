@@ -3,11 +3,12 @@ import Header from './components/Header';
 import InputComponent from './components/InputComponent';
 import ViewComponent from './components/ViewComponent';
 import FinalViewComponent from './components/FinalViewComponent';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   const [inputQueue, setInputQueue] = useState([]);
   const [finalViewQueue, setFinalViewQueue] = useState([]);
-
   const handleAdd = (text) => {
     setInputQueue([...inputQueue, text]);
     setFinalViewQueue([...finalViewQueue, text]); 
@@ -42,10 +43,14 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <div className="container">
+      <div className="container d-flex  justify-content-around w-100 h-100 ">
+        <div className='d-flex flex-column w-75 '>
         <InputComponent onAdd={handleAdd} />
         <ViewComponent queue={inputQueue} />
+        </div>
+        <div>
         <FinalViewComponent queue={finalViewQueue} onEnd={handleEnd} onReset={handleReset} />
+        </div>
       </div>
     </div>
   );

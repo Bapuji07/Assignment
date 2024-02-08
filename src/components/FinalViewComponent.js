@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 
 function FinalViewComponent({ queue, onEnd, onReset }) {
-  const [currentItem, setCurrentItem] = useState('');
+  const [removedItems, setRemovedItems] = useState([]);
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (queue.length > 0) {
-        setCurrentItem(queue.shift());
+        const removedItem = queue.shift();
+        setRemovedItems(prevItems => [...prevItems, removedItem]);
       }
     }, 10000);
 
@@ -33,15 +32,22 @@ function FinalViewComponent({ queue, onEnd, onReset }) {
 
   const handleReset = () => {
     onReset();
-    setCurrentItem('');
+    setRemovedItems([]);
   };
 
   return (
     <div className="final-view-container">
-      <div className="current-item">{currentItem}</div>
-      <div className="buttons">
-        <button onClick={handleEnd}>End</button>
-        <button onClick={handleReset}>Reset</button>
+      <div className="removed-items">
+        <h3>Removed Items:</h3>
+        <ul className="list-group">
+            {removedItems.map((item, index) => (
+              <li key={index} className="list-group-item">{item}</li>
+            ))}
+          </ul>
+      </div>
+      <div className="d-flex gap-2 ">
+        <button className="btn btn-primary " type="button" onClick={handleEnd}>End</button>
+        <button className="btn btn-primary" type="button" variant="secondary" onClick={handleReset}>Reset</button>
       </div>
     </div>
   );
